@@ -19,7 +19,7 @@ public:
      }
      char *printChar();
 
-     myString operator-();
+     myString operator-();                             //turn string tolower characters
      bool operator==(const myString &second_obj);      // check for equality
      bool operator!=(const myString &second_obj);      // check for inequality
      bool operator<(const myString &second_obj);       //check for greater
