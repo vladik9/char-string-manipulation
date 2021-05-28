@@ -19,19 +19,22 @@ public:
      }
      char *printChar();
 
-     myString operator-();                             //turn string tolower characters
-     bool operator==(const myString &second_obj);      // check for equality
-     bool operator!=(const myString &second_obj);      // check for inequality
-     bool operator<(const myString &second_obj);       //check for greater
-     bool operator>(const myString &second_obj);       // check for smaller
-     myString operator+(const myString &second_obj);   // concatenation
-     myString &operator+=(const myString &second_obj); // concatenation and store to the same object
-     myString operator*(const int &nr_times);          // multimply n time object value
-     myString &operator*=(const int &nr_times);        // multimply n time object value and store to the same object
-     myString &operator++();                           // prefix // to upper first letter
-     myString &operator++(int);                        // postfix // to upper last letter
-     myString &operator--();                           // prefix // to lowest first letter
-     myString &operator--(int);                        // postfix // to lowest last letter
+     friend myString &operator-(myString &object);                                  //turn string tolower characters
+     friend bool operator==(const myString &first_obj, const myString &second_obj); // check for equality
+     friend bool operator!=(const myString &first_obj, const myString &second_obj); // check for inequality
+     friend bool operator<(const myString &first_obj, const myString &second_obj);  //check for greater
+     friend bool operator>(const myString &first_obj, const myString &second_obj);  // check for smaller
+
+     friend myString operator+(const myString &first_obj, const myString &second_obj); // concatenation
+
+     friend myString &operator+=(const myString &first_obj, const myString &second_obj); // concatenation and store to the same object
+     friend myString operator*(const myString &obj, const int &nr_times);                // multimply n time object value
+
+     friend myString &operator*=(const myString &obj, const int &nr_times); // multimply n time object value and store to the same object
+     friend myString &operator++(const myString &obj);                      // prefix // to upper first letter
+     friend myString &operator++(const myString &obj, int);                 // postfix // to upper last letter
+     friend myString &operator--(const myString &obj);                      // prefix // to lowest first letter
+     friend myString &operator--(const myString &obj, int);                 // postfix // to lowest last letter
 
 public:
 };

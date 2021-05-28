@@ -1,11 +1,10 @@
 #include <iostream>
 #include "mystring.h"
 #include "mystring.cpp"
-
+using namespace std;
 int main()
 {
-
-     // type operator that ypu want to use
+     // add yor operation to overload
 
      return 0;
 }

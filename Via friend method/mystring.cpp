@@ -39,113 +39,121 @@ myString::myString(myString &&move)
      move.char_string = nullptr;
 }
 
-myString myString::operator-()
+myString &operator-(myString &object)
 {
-     char *buf = new char[100];
-     strcpy(buf, char_string);
-     for (size_t i = 0; i < strlen(buf); i++)
+     char *buf = new char[strlen(object.char_string) + 1];
+     strcpy(buf, object.char_string);
+     for (size_t i = 0; i < strlen(object.char_string); i++)
      {
-          buf[i] = tolower(char_string[i]);
+          buf[i] = tolower(buf[i]);
      }
-     myString temp{buf};
+     strcpy(object.char_string, buf);
      delete[] buf;
-     return temp;
-}
-bool myString::operator==(const myString &second_obj)
-{
-     return {strcmp(this->char_string, second_obj.char_string) == 0};
-}
-bool myString::operator!=(const myString &second_obj)
-{
-     return {strcmp(this->char_string, second_obj.char_string) != 0};
-}
-bool myString::operator<(const myString &second_obj)
-{
 }
 
-myString myString::operator+(const myString &second_obj)
+bool operator==(const myString &first_obj, const myString &second_obj)
 {
-     size_t bufer_size = strlen(this->char_string) + strlen(second_obj.char_string);
-     char *buf = new char[bufer_size + 1];
-     strcpy(buf, this->char_string);
+     return {strcmp(first_obj.char_string, second_obj.char_string) == 0};
+}
+
+bool operator!=(const myString &first_obj, const myString &second_obj)
+{
+     return {strcmp(first_obj.char_string, second_obj.char_string) != 0};
+}
+bool operator<(const myString &first_obj, const myString &second_obj)
+{
+     return {strlen(first_obj.char_string) < strlen(second_obj.char_string)};
+}
+bool operator>(const myString &first_obj, const myString &second_obj)
+{
+     return {strlen(first_obj.char_string) > strlen(second_obj.char_string)};
+}
+
+myString operator+(const myString &first_obj, const myString &second_obj)
+{
+     char *buf = new char[strlen(first_obj.char_string) + strlen(second_obj.char_string) + 1];
+
+     strcpy(buf, first_obj.char_string);
      strcat(buf, second_obj.char_string);
      myString temp{buf};
      delete[] buf;
      return temp;
 }
-myString &myString::operator+=(const myString &second_obj)
-{
-     size_t bufer_size = strlen(this->char_string) + strlen(second_obj.char_string);
-     char *buf = new char[bufer_size + 1];
-     strcpy(buf, this->char_string);
-     strcat(buf, second_obj.char_string);
-     strcpy(this->char_string, buf);
-     delete[] buf;
-     return *this;
-}
-myString myString::operator*(const int &nr_times)
-{
-     size_t buf_size = strlen(this->char_string) * nr_times;
-     char *buf = new char[buf_size + 1];
-     strcpy(buf, this->char_string);
-     for (size_t i = 0; i < (nr_times - 1); i++)
-     {
-          strcat(buf, this->char_string);
-     }
-     myString temp{buf};
 
-     delete[] buf;
-     return temp;
-}
-myString &myString::operator*=(const int &nr_times)
+myString &operator+=(const myString &first_obj, const myString &second_obj)
 {
-     size_t buf_size = strlen(this->char_string) * nr_times;
+     char *buf = new char[strlen(first_obj.char_string) + strlen(second_obj.char_string) + 1];
+
+     strcpy(buf, first_obj.char_string);
+     strcat(buf, second_obj.char_string);
+     strcpy(first_obj.char_string, buf);
+     delete[] buf;
+}
+myString operator*(const myString &obj, const int &nr_times)
+{
+     size_t buf_size = strlen(obj.char_string) * nr_times;
+
      char *buf = new char[buf_size + 1];
-     strcpy(buf, this->char_string);
+
+     strcpy(buf, obj.char_string);
+
      for (size_t i = 0; i < nr_times - 1; i++)
      {
-          strcat(buf, this->char_string);
+          strcat(buf, obj.char_string);
      }
-     strcpy(this->char_string, buf);
+     myString temp{buf};
      delete[] buf;
-     return *this;
+     return temp;
+}
+myString &operator*=(const myString &obj, const int &nr_times)
+{
+     size_t buf_size = strlen(obj.char_string) * nr_times;
+
+     char *buf = new char[buf_size + 1];
+
+     strcpy(buf, obj.char_string);
+
+     for (size_t i = 0; i < nr_times - 1; i++)
+     {
+          strcat(buf, obj.char_string);
+     }
+     strcpy(obj.char_string, buf);
+     delete[] buf;
+}
+myString &operator++(const myString &obj)
+{
+
+     char *buf = new char[strlen(obj.char_string) + 1];
+     strcpy(buf, obj.char_string);
+     buf[0] = toupper(buf[0]);
+     strcpy(obj.char_string, buf);
+     delete[] buf;
+}
+myString &operator++(const myString &obj, int)
+{
+
+     char *buf = new char[strlen(obj.char_string) + 1];
+     strcpy(buf, obj.char_string);
+     buf[strlen(obj.char_string) - 1] = toupper(buf[strlen(obj.char_string) - 1]);
+     strcpy(obj.char_string, buf);
+     delete[] buf;
 }
 
-myString &myString::operator++()
+myString &operator--(const myString &obj)
 {
-     char *buf = new char[strlen(this->char_string) + 1];
-     strcpy(buf, this->char_string);
-     buf[0] = toupper(buf[0]);
-     strcpy(this->char_string, buf);
+
+     char *buf = new char[strlen(obj.char_string) + 1];
+     strcpy(buf, obj.char_string);
+     buf[0] = tolower(buf[0]);
+     strcpy(obj.char_string, buf);
      delete[] buf;
-     return *this;
 }
-myString &myString::operator++(int)
+myString &operator--(const myString &obj, int)
 {
-     size_t buf_size = strlen(this->char_string);
-     char *buf = new char[buf_size + 1];
-     strcpy(buf, this->char_string);
-     buf[buf_size - 1] = toupper(buf[buf_size - 1]);
-     strcpy(this->char_string, buf);
+
+     char *buf = new char[strlen(obj.char_string) + 1];
+     strcpy(buf, obj.char_string);
+     buf[strlen(obj.char_string) - 1] = tolower(buf[strlen(obj.char_string) - 1]);
+     strcpy(obj.char_string, buf);
      delete[] buf;
-     return *this;
-}
-myString &myString::operator--()
-{
-     char *buf = new char[strlen(this->char_string) + 1];
-     strcpy(buf, this->char_string);
-     buf[0] = tolower(this->char_string[0]);
-     strcpy(this->char_string, buf);
-     delete[] buf;
-     return *this;
-}
-myString &myString::operator--(int)
-{
-     size_t buf_size = strlen(this->char_string);
-     char *buf = new char[buf_size + 1];
-     strcpy(buf, this->char_string);
-     buf[buf_size - 1] = tolower(buf[buf_size - 1]);
-     strcpy(this->char_string, buf);
-     delete[] buf;
-     return *this;
 }
